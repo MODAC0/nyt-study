@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# **NYT Learner**
 
-## Getting Started
+## **프로젝트 목표**
+세계에서 가장 영향력 있는 언론인 뉴욕타임즈의 기사를 번역하며 영어 실력을 향상시키고, 동시에 세계 정세를 파악할 수 있는 기회를 제공합니다.  
+다음과 같은 주요 기능을 통해 사용자의 학습 경험을 극대화하고자 합니다:
+- **분야별 뉴스 검색**: 사용자가 관심 있는 주제의 기사를 찾아 학습.
+- **번역 학습**: 원문과 번역을 한 줄씩 비교하며 영어 학습.
+- **단어장 기능**: 기사에서 새로운 단어를 저장하고 학습.
+- **API 사용 최적화**: 일일 기사 제한으로 효율적인 학습 제공.
+- **SEO 최적화**: 검색 엔진 친화적인 구조로 설계.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## **사용 스택**
+### **프론트엔드**
+- **Framework**: Next.js 13 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: React Context API
+- **SEO**: 메타 태그, OpenGraph 데이터, Sitemap
+
+### **백엔드**
+- **Runtime**: Next.js API Routes
+- **API Integration**: 
+  - **New York Times API**: 뉴스 데이터 제공
+  - **Google Cloud Translation API**: 번역 기능 구현
+- **Database**: MongoDB (단어장 데이터 저장)
+
+---
+
+## **API 명세서**
+
+### **1. 뉴스 목록 가져오기**
+- **URL**: `/api/news`
+- **Method**: `GET`
+- **Query Parameters**: 
+  - `category` (선택): 뉴스 카테고리 (예: `politics`, `science`)
+  - `query` (선택): 검색 키워드
+- **Response**:
+  ```json
+  {
+    "status": "ok",
+    "results": [
+      {
+        "title": "기사 제목",
+        "abstract": "기사 요약",
+        "url": "기사 링크",
+        "published_date": "YYYY-MM-DD",
+        "section": "뉴스 섹션",
+        ...
+      }
+    ]
+  }
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## **서비스 플로우**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### **1. 메인 화면**
+- 사용자가 **메인 화면**에서 뉴스 검색창 또는 최신 인기 뉴스 카드를 클릭.
+- 뉴욕타임즈 API를 호출하여 관련 기사를 Fetch.
+- 기사를 선택하여 **번역 학습 페이지**로 이동.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+### **2. 번역 학습**
+- 선택한 기사의 **원문과 번역**이 한 줄씩 나란히 표시.
+- 사용자는 **번역 방식(직역/의역)**을 선택 가능.
+- 학습 중 저장하고 싶은 단어를 **"단어장 추가" 버튼**을 통해 저장.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### **3. 단어장**
+- 사용자가 저장한 단어를 **조회, 수정, 삭제** 가능.
+- 단어 **암기 여부**를 체크하며 학습 진행.
+- **단어 테스트** 기능 제공:
+  - 예문 빈칸 채우기
+  - 뜻 맞추기
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### **4. 비회원 접근**
+- **비회원도 뉴스 검색 및 번역 기능**을 제한적으로 사용 가능.
+- 제한된 기사 수(일일 1개)를 초과하면 **회원가입 유도 화면** 노출.
