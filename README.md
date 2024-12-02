@@ -37,7 +37,7 @@
   - `category` (선택): 뉴스 카테고리 (예: `politics`, `science`)
   - `query` (선택): 검색 키워드
 - **Response**:
-  ```json
+```json
   {
     "status": "ok",
     "results": [
@@ -47,10 +47,10 @@
         "url": "기사 링크",
         "published_date": "YYYY-MM-DD",
         "section": "뉴스 섹션",
-        ...
       }
     ]
   }
+
 ```
 
 ## **서비스 플로우**
