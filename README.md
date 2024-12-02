@@ -13,10 +13,10 @@
 
 ## **사용 스택**
 ### **프론트엔드**
-- **Framework**: Next.js 13 (App Router)
+- **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **State Management**: React Context API
+- **State Management**: 미정
 - **SEO**: 메타 태그, OpenGraph 데이터, Sitemap
 
 ### **백엔드**
@@ -24,7 +24,7 @@
 - **API Integration**: 
   - **New York Times API**: 뉴스 데이터 제공
   - **Google Cloud Translation API**: 번역 기능 구현
-- **Database**: MongoDB (단어장 데이터 저장)
+- **Database**: MongoDB (단어장 데이터 저장) (예상)
 
 ---
 
