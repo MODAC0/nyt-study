@@ -1,27 +1,20 @@
-"use client";
-
+import { News } from "@/interface/dtos/news";
 import axios from "axios";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function Home() {
-
-  const [weeklyNews, setWeeklyNews] = useState();
-
-  const fetchNews = async () => {
-    try {
-      const res = await axios.get(`/api/weeklyNews`).then(res => console.log(res.data));
-
-    } catch (error) {
-      //   console.error(error.message);
-    }
-  };
-
-  useEffect(() => {
-    fetchNews();
+const fetchPost = async () => {
+  const res = await fetch('/api/weeklyNews', {
+    cache: "no-store",
   })
-
-  return (
-    <main>main page</main>
-  );
+  return res.json();
 }
+
+const Home = async () => {
+  const data = await fetchPost();
+  console.log(data);
+  return <div></div>;
+}
+
+export default Home;
+
+
