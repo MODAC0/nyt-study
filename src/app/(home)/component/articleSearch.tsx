@@ -1,64 +1,11 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-
-export interface Article {
-  _id: string;
-  web_url: string;
-  snippet: string;
-  lead_paragraph: string;
-  abstract: string;
-  headline: {
-    main: string;
-    kicker?: string;
-    content_kicker?: string;
-    print_headline?: string;
-    name?: string;
-    seo?: string;
-    sub?: string;
-  };
-  pub_date: string;
-  byline: {
-    original?: string;
-    person?: {
-      firstname?: string;
-      middlename?: string;
-      lastname?: string;
-      qualifier?: string;
-      title?: string;
-      role?: string;
-      organization?: string;
-      rank?: number;
-    }[];
-  };
-  multimedia: {
-    url: string;
-    format: string;
-    height: number;
-    width: number;
-    type: string;
-    subtype: string;
-    caption?: string;
-    copyright?: string;
-  }[];
-  section_name?: string;
-  subsection_name?: string;
-}
-
-export interface ArticleSearchResponse {
-  response: {
-    docs: Article[];
-    meta: {
-      hits: number;
-      offset: number;
-      time: number;
-    };
-  };
-}
+import { ArticleSearch_T } from "@/interface/dtos/news";
 
 const ArticleSearch = () => {
   const [query, setQuery] = useState<string>("");
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<ArticleSearch_T.Article[]>([]);
   const [page, setPage] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -75,9 +22,7 @@ const ArticleSearch = () => {
       if (!res.ok) {
         throw new Error(`Error: ${res.statusText}`);
       }
-
-      const data: ArticleSearchResponse = await res.json();
-      console.log(data);
+      const data: ArticleSearch_T.DTO = await res.json();
       setArticles((prev) => [...prev, ...data.response.docs]);
     } catch (err: any) {
       setError(err.message || "An error occurred while fetching articles.");

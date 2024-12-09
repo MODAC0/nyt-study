@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { News } from "@/interface/dtos/news";
+import { WeeklyNews_T } from "@/interface/dtos/news";
 import Image from "next/image";
 
 const WeeklyNews = () => {
-    const [data, setData] = useState<News.weeklyNews[]>([]);
+    const [data, setData] = useState<WeeklyNews_T.DTO[]>([]);
 
     const fetchPost = async () => {
         try {

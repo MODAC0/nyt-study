@@ -1,18 +1,18 @@
-export namespace News {
-    /** 
-     * 주간 최신 인기 뉴스 20게
-     * /api/weeklyNews
-     * https://api.nytimes.com/svc/mostpopular/v2/emailed/7.json
+export namespace WeeklyNews_T {
+    /**
+     * Media metadata for weekly news
      */
-
-    interface MediaMetadata {
+    export interface MediaMetadata {
         url: string;
         format: string;
         height: number;
         width: number;
     }
 
-    interface Media {
+    /**
+     * Media object for weekly news
+     */
+    export interface Media {
         type: string;
         subtype: string;
         caption: string;
@@ -21,7 +21,10 @@ export namespace News {
         "media-metadata": MediaMetadata[];
     }
 
-    interface weeklyNews {
+    /**
+     * Weekly news interface for most popular articles
+     */
+    export interface DTO {
         uri: string;
         url: string;
         id: number;
@@ -44,5 +47,87 @@ export namespace News {
         geo_facet: string[];
         media: Media[];
         eta_id: number;
+    }
+}
+
+export namespace ArticleSearch_T {
+    /**
+     * Byline person interface
+     */
+    export interface Person {
+        firstname?: string;
+        middlename?: string;
+        lastname?: string;
+        qualifier?: string;
+        title?: string;
+        role?: string;
+        organization?: string;
+        rank?: number;
+    }
+
+    /**
+     * Byline interface for author and contributors
+     */
+    export interface Byline {
+        original?: string;
+        person?: Person[];
+    }
+
+    /**
+     * Multimedia content interface
+     */
+    export interface Multimedia {
+        url: string;
+        format: string;
+        height: number;
+        width: number;
+        type: string;
+        subtype: string;
+        caption?: string;
+        copyright?: string;
+    }
+
+    /**
+     * Article headline interface
+     */
+    export interface Headline {
+        main: string;
+        kicker?: string;
+        content_kicker?: string;
+        print_headline?: string;
+        name?: string;
+        seo?: string;
+        sub?: string;
+    }
+
+    /**
+     * Article interface for general news articles
+     */
+    export interface Article {
+        _id: string;
+        web_url: string;
+        snippet: string;
+        lead_paragraph: string;
+        abstract: string;
+        headline: Headline;
+        pub_date: string;
+        byline: Byline;
+        multimedia: Multimedia[];
+        section_name?: string;
+        subsection_name?: string;
+    }
+
+    /**
+     * Response structure for article search API
+     */
+    export interface DTO {
+        response: {
+            docs: Article[];
+            meta: {
+                hits: number;
+                offset: number;
+                time: number;
+            };
+        };
     }
 }
