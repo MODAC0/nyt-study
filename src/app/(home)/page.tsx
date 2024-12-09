@@ -17,6 +17,14 @@ const Home = () => {
     }
   };
 
+  const getFetchThumnail = (mediaArray: News.Media[]) => {
+    if (!mediaArray.length) return "";
+    mediaArray.map(media => {
+      media
+    })
+
+  }
+
   useEffect(() => {
     fetchPost();
   }, []);
@@ -31,7 +39,7 @@ const Home = () => {
       <ul key={id}>
         <li>
           <h3>{title}</h3>
-          <img src={media[0]["media-metadata"][2].url} alt="" />
+          {/* <img src={media[0]["media-metadata"][2].url} alt="" /> */}
         </li>
       </ul>
     )}
