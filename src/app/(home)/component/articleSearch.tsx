@@ -1,29 +1,38 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ArticleSearch_T } from "@/interface/dtos/news";
 
 const ArticleSearch = () => {
-  const [query, setQuery] = useState<string>("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // 초기 상태를 URL에서 가져오기
+  const initialQuery = searchParams.get("query") || "";
+  const initialPage = Number(searchParams.get("page")) || 0;
+
+  const [query, setQuery] = useState<string>(initialQuery);
   const [articles, setArticles] = useState<ArticleSearch_T.Article[]>([]);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(initialPage);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const fetchArticles = async () => {
-    if (!query) return;
-
+  const fetchArticles = async (searchQuery: string, searchPage: number) => {
     setLoading(true);
     setError("");
+
     try {
       const res = await fetch(
-        `/api/articleSearch?query=${encodeURIComponent(query)}&page=${page}`
+        `/api/articleSearch?query=${encodeURIComponent(searchQuery)}&page=${searchPage}`
       );
       if (!res.ok) {
         throw new Error(`Error: ${res.statusText}`);
       }
       const data: ArticleSearch_T.DTO = await res.json();
-      setArticles((prev) => [...prev, ...data.response.docs]);
+      setArticles((prev) =>
+        searchPage === 0 ? data.response.docs : [...prev, ...data.response.docs]
+      );
     } catch (err: any) {
       setError(err.message || "An error occurred while fetching articles.");
     } finally {
@@ -32,20 +41,26 @@ const ArticleSearch = () => {
   };
 
   const handleSearch = () => {
-    setArticles([]); // Clear previous results
-    setPage(0); // Reset to first page
-    fetchArticles();
+    // 검색 시 URL 업데이트
+    router.push(`/search?query=${encodeURIComponent(query)}&page=0`);
   };
 
   const loadMore = () => {
-    setPage((prev) => prev + 1);
+    const nextPage = page + 1;
+    router.push(`/search?query=${encodeURIComponent(query)}&page=${nextPage}`);
   };
 
+  // URL 쿼리가 변경될 때 실행
   useEffect(() => {
-    if (page > 0) {
-      fetchArticles();
+    const currentQuery = searchParams.get("query") || "";
+    const currentPage = Number(searchParams.get("page")) || 0;
+
+    if (currentQuery) {
+      setQuery(currentQuery);
+      setPage(currentPage);
+      fetchArticles(currentQuery, currentPage);
     }
-  }, [page]);
+  }, [searchParams]);
 
   return (
     <div>

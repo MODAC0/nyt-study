@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { WeeklyNews_T } from "@/interface/dtos/news";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const WeeklyNews = () => {
+    const router = useRouter();
     const [data, setData] = useState<WeeklyNews_T.DTO[]>([]);
 
     const fetchPost = async () => {
@@ -51,6 +53,7 @@ const WeeklyNews = () => {
                     })}
                 </div>
                 <p>{title}</p>
+                <p onClick={() => router.push(`/article/${id}`)}>바로가기</p>
             </li>
         )}
     </ul>;
